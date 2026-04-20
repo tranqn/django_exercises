@@ -16,3 +16,27 @@ h1 {
 
 a { color: #447e9b; text-decoration: none; }
 a:hover { color: #2d5f78; text-decoration: underline; }
+
+ul { list-style: none; padding: 0; }
+ul li { padding: 8px 0; border-bottom: 1px solid #eee; }
+li a { font-size: 1.1em; }
+
+input[type="submit"] {
+    background-color: #447e9b;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 1em;
+    margin-top: 10px;
+}
+
+input[type="submit"]:hover { background-color: #2d5f78; }
+
+fieldset {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 20px;
+    background: white;
+}
