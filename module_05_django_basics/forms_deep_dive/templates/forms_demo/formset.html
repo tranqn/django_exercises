@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Books{% endblock %}
+
+{% block content %}
+<h1>Manage Books</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ formset.management_form }}
+
+    <table>
+        <thead>
+            <tr>
+                {% for field in formset.forms.0 %}
+                    <th>{{ field.label }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for form in formset %}
+            <tr>
+                {% for field in form %}
+                    <td>{{ field }}{{ field.errors }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <button type="submit">Save All</button>
+</form>
+{% endblock %}
