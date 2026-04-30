@@ -8,17 +8,22 @@ def login_view(request):
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
-            username = form.cleaned_data["username"]
-            password = form.cleaned_data["password"]
-            user = authenticate(request, username=username, password=password)
+            user = authenticate(
+                request,
+                username=form.cleaned_data["username"],
+                password=form.cleaned_data["password"],
+            )
             if user is not None:
                 login(request, user)
-                messages.success(request, f"Welcome back, {username}!")
+                messages.success(request, f"Welcome back, {user.username}!")
                 return redirect("home")
-            else:
-                messages.error(request, "Invalid username or password.")
-        else:
-            messages.error(request, "Invalid username or password.")
+        messages.error(request, "Invalid username or password.")
     else:
         form = AuthenticationForm()
     return render(request, "accounts/login.html", {"form": form})
+
+
+def logout_view(request):
+    logout(request)
+    messages.info(request, "You have been logged out.")
+    return redirect("login")
