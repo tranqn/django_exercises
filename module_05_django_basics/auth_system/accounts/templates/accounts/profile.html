@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<h1>Your Profile</h1>
+
+<div class="profile-info">
+    {% if user.profile.avatar %}
+        <img src="{{ user.profile.avatar.url }}" alt="Avatar" width="150">
+    {% endif %}
+    <p><strong>{{ user.get_full_name }}</strong></p>
+    <p>{{ user.email }}</p>
+</div>
+
+<h2>Update Profile</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <fieldset>
+        <legend>Account Info</legend>
+        {{ user_form.as_p }}
+    </fieldset>
+    <fieldset>
+        <legend>Profile Info</legend>
+        {{ profile_form.as_p }}
+    </fieldset>
+    <button type="submit">Save Changes</button>
+</form>
+{% endblock %}
