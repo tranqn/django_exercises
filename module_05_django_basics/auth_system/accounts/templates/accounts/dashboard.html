@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h1>Dashboard</h1>
+<p>Welcome, {{ user.username }}!</p>
+
+{% if perms.accounts.can_view_all_profiles %}
+    <a href="{% url 'all-profiles' %}">View All Profiles</a>
+{% endif %}
+
+{% if perms.accounts.can_export_users %}
+    <a href="{% url 'export-users' %}">Export Users</a>
+{% endif %}
+
+{% if user.is_staff %}
+    <a href="/admin/">Admin Panel</a>
+{% endif %}
+{% endblock %}

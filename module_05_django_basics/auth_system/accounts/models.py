@@ -10,5 +10,11 @@ class UserProfile(models.Model):
     birth_date = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        permissions = [
+            ("can_view_all_profiles", "Can view all user profiles"),
+            ("can_export_users", "Can export user data"),
+        ]
+
     def __str__(self):
         return f"Profile of {self.user.username}"
