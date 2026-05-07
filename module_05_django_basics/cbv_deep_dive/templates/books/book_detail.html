@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}{{ book.title }}{% endblock %}
+
+{% block content %}
+<h1>{{ book.title }}</h1>
+<p><strong>Author:</strong> {{ book.author }}</p>
+<p><strong>Pages:</strong> {{ book.pages }}</p>
+<p><strong>Status:</strong> {{ book.get_status_display }}</p>
+<p>{{ book.description }}</p>
+
+{% if related_books %}
+<h2>More by {{ book.author }}</h2>
+<ul>
+{% for related in related_books %}
+    <li><a href="{% url 'book-detail' related.pk %}">{{ related.title }}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+{% endblock %}
