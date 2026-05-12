@@ -18,6 +18,26 @@ class Author(models.Model):
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
-    @property
-    def full_name(self):
-        return f"{self.first_name} {self.last_name}"
+
+class Publisher(models.Model):
+    name = models.CharField(max_length=200, unique=True)
+    address = models.CharField(max_length=300, blank=True)
+    city = models.CharField(max_length=100)
+    country = models.CharField(max_length=100)
+    website = models.URLField(blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(unique=True)
+    description = models.TextField(blank=True)
+
+    class Meta:
+        verbose_name_plural = "Categories"
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
