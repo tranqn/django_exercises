@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.utils.text import slugify
 
 
 class Author(models.Model):
@@ -41,3 +42,38 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Book(models.Model):
+    STATUS_CHOICES = [
+        ("draft", "Draft"),
+        ("published", "Published"),
+        ("archived", "Archived"),
+    ]
+
+    title = models.CharField(max_length=300)
+    slug = models.SlugField(unique=True, blank=True)
+    isbn = models.CharField("ISBN", max_length=13, unique=True)
+    pages = models.PositiveIntegerField(validators=[MinValueValidator(1)])
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+    description = models.TextField(blank=True)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="draft")
+    publication_date = models.DateField(null=True, blank=True)
+
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name="books")
+    publisher = models.ForeignKey(Publisher, on_delete=models.SET_NULL, null=True, blank=True, related_name="books")
+    categories = models.ManyToManyField(Category, blank=True, related_name="books")
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-publication_date"]
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
