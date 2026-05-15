@@ -8,6 +8,16 @@ class MarketSerializer(serializers.Serializer):
     description = serializers.CharField(required=False, allow_blank=True)
     seller = serializers.IntegerField()
 
+    def validate_name(self, value):
+        if len(value) < 3:
+            raise serializers.ValidationError("Name must be at least 3 characters.")
+        return value
+
+    def validate(self, data):
+        if data.get("name") == data.get("location"):
+            raise serializers.ValidationError("Name and location cannot be the same.")
+        return data
+
     def create(self, validated_data):
         from .models import Market
         return Market.objects.create(**validated_data)
