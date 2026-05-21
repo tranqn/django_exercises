@@ -1,16 +1,19 @@
 from rest_framework import viewsets, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import Market, Seller
 from .serializers import MarketModelSerializer, SellerSerializer
 from .pagination import StandardPagination
+from .filters import MarketFilter
 
 
 class MarketViewSet(viewsets.ModelViewSet):
     queryset = Market.objects.select_related("seller").all()
     serializer_class = MarketModelSerializer
     pagination_class = StandardPagination
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_class = MarketFilter
     search_fields = ["name", "location", "description"]
     ordering_fields = ["name", "created_at"]
     ordering = ["-created_at"]
@@ -31,5 +34,6 @@ class MarketViewSet(viewsets.ModelViewSet):
 class SellerViewSet(viewsets.ModelViewSet):
     queryset = Seller.objects.all()
     serializer_class = SellerSerializer
-    filter_backends = [filters.SearchFilter]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_fields = ["city"]
     search_fields = ["name", "city"]
