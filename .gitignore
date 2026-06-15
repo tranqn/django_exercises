@@ -18,3 +18,9 @@ db.sqlite3
 .DS_Store
 Thumbs.db
 .env
+
+# Local commit-automation tooling — keep the playbooks and bot state out of history
+autocommit.py
+.autocommit_state.json
+commits.md
+commits/
