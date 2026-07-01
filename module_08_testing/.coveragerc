@@ -1,0 +1,14 @@
+[run]
+branch = True
+source = .
+omit =
+    */migrations/*
+    */tests/*
+    */test_*.py
+    manage.py
+    */settings/*
+
+[report]
+show_missing = True
+skip_covered = True
+fail_under = 85
